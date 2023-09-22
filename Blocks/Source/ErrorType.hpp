@@ -3,6 +3,8 @@
 enum ErrorType
 {
 	Unknown,
+	NotSupported,
+
 	GlfwInitFail,
 	GlfwCreateWindowFail,
 	GlewInitFail,
