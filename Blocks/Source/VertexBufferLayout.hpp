@@ -1,8 +1,8 @@
 #pragma once
 
+#include <glew.h>
 #include <vector>
 
-#include "Renderer.h"
 #include "Error.hpp"
 
 struct VertextBufferElement

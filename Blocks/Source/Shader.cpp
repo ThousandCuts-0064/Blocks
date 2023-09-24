@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 
-#include "Shader.h"
+#include "Shader.hpp"
 #include "Error.hpp"
 
 Shader::Shader(std::string const& vertexFilePath, std::string const& fragmentFilePath) :
@@ -30,9 +30,19 @@ void Shader::Unbind() const
 	glUseProgram(GL_ZERO);
 }
 
-void Shader::SetUniform4f(unsigned int location, float v0, float v1, float v2, float v3) const
+void Shader::SetUniform1i(int location, int value) const
+{
+	glUniform1i(location, value);
+}
+
+void Shader::SetUniform4f(int location, float v0, float v1, float v2, float v3) const
 {
 	glUniform4f(location, v0, v1, v2, v3);
+}
+
+void Shader::SetUniformMat4f(int location, glm::mat4 const& matrix) const
+{
+	glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
 }
 
 std::string const Shader::ParseShader(std::string const& filePath) const

@@ -1,4 +1,9 @@
-#include "Renderer.h"
+#include "Renderer.hpp"
+
+void Renderer::Clear() const
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+}
 
 void Renderer::Draw(VertexArray const& va, IndexBuffer const& ib, Shader const& shader) const
 {

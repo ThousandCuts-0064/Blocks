@@ -1,5 +1,5 @@
-#include "IndexBuffer.h"
-#include "Renderer.h"
+#include "IndexBuffer.hpp"
+#include "Renderer.hpp"
 
 IndexBuffer::IndexBuffer(unsigned int const* data, unsigned int count) :
 	_rendererID(GL_ZERO),

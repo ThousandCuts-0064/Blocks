@@ -1,16 +1,20 @@
 #include <glew.h>
 #include <glfw3.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 
+#include "Renderer.hpp"
 #include "Error.hpp"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "Shader.h"
+#include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
+#include "VertexArray.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
 
 static void GLDebugMessageHandle(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* userParam)
 {
@@ -24,8 +28,13 @@ int main(void)
 		if (glfwInit() == GLFW_FALSE)
 			throw Error(GlfwInitFail);
 
+		GLFWvidmode const* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		int const width = mode->width;
+		int const height = mode->height;
+		float const aspectRatio = static_cast<float>(width) /height;
+
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-		GLFWwindow* window = glfwCreateWindow(640, 480, "Blocks", nullptr, nullptr);
+		GLFWwindow* const window = glfwCreateWindow(width, height, "Blocks", nullptr, nullptr);
 		if (!window)
 		{
 			glfwTerminate();
@@ -41,46 +50,60 @@ int main(void)
 
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(GLDebugMessageHandle, nullptr);
-		GLuint unusedIds = 0;
+		GLuint const unusedIds = 0;
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		std::cout << "Version:" << glGetString(GL_VERSION) << std::endl << std::endl;
 
-		float positions[] =
+		float const positions[] =
 		{
-			-0.5f, -0.5f,
-			 0.5f, -0.5f,
-			 0.5f,  0.5f,
-			-0.5f,  0.5f,
+			 000.0f,  000.0f,   0.0f, 0.0f,
+			 100.0f,  000.0f,   1.0f, 0.0f,
+			 100.0f,  100.0f,   1.0f, 1.0f,
+			 000.0f,  100.0f,   0.0f, 1.0f,
 		};
 
-		unsigned int indices[] =
+		unsigned const int indices[] =
 		{
 			0, 1, 2,
 			2, 3, 0,
 		};
 
 		VertexArray va;
-		VertexBuffer vb(positions, 8 * sizeof(float));
+		VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
 		VertexBufferLayout layout;
+		layout.Push<float>(2);
 		layout.Push<float>(2);
 		va.SetBuffer(vb, layout);
 
 		IndexBuffer ib(indices, 6);
 
-		glBindVertexArray(GL_ZERO);
-		glBindBuffer(GL_ARRAY_BUFFER, GL_ZERO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_ZERO);
-
+		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(1000.0f, 0.0f, 0.0f));
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 500.0f, 0.0f));
+		glm::mat4 mvp = projection * view * model;
 
 		Shader shader("Resources/Shaders/Basic.vert", "Resources/Shaders/Basic.frag");
+		shader.Bind();
+
+		Texture texture("Resources/Textures/Grass_Side_16.png");
+		texture.Bind();
+		shader.SetUniform1i(2, 0);
+		shader.SetUniformMat4f(3, mvp);
+
+		std::cout << glGetUniformLocation(1, "u_mvp") << std::endl;
+
+		Renderer renderer;
 
 		while (!glfwWindowShouldClose(window))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
-
+			renderer.Clear();
 			shader.SetUniform4f(1, 0.0f, 0.0f, 1.0f, 1.0f);
+			renderer.Draw(va, ib, shader);
 
 			glfwSwapBuffers(window);
 
@@ -89,7 +112,7 @@ int main(void)
 
 		glfwTerminate();
 	}
-	catch (Error& e)
+	catch (Error const& e)
 	{
 		std::cout << e.GetMessage() << std::endl;
 		return e.GetErrorType();
