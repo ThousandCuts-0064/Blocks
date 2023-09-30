@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\imgui;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\imgui;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\imgui;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source\Vendor;Source\Vendor\imgui;Source\Vendor\stb_image;Source\Vendor\glm;$(SolutionDir)Dependencies\glew-2.2.0\include\GL;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -150,6 +150,13 @@
     <ClCompile Include="Source\Error.hpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Vendor\glm\detail\glm.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\VertexBuffer.cpp" />
     <ClCompile Include="Source\VertexArray.cpp" />
@@ -583,6 +590,15 @@
     <ClInclude Include="Source\Vendor\glm\vec3.hpp" />
     <ClInclude Include="Source\Vendor\glm\vec4.hpp" />
     <ClInclude Include="Source\Vendor\glm\vector_relational.hpp" />
+    <ClInclude Include="Source\Vendor\imgui\imconfig.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_textedit.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h" />
     <ClInclude Include="Source\VertexBuffer.hpp" />
     <ClInclude Include="Source\VertexArray.hpp" />

@@ -2,6 +2,9 @@
 #include <glfw3.h>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 #include <iostream>
 #include <fstream>
@@ -31,7 +34,7 @@ int main(void)
 		GLFWvidmode const* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		int const width = mode->width;
 		int const height = mode->height;
-		float const aspectRatio = static_cast<float>(width) /height;
+		float const aspectRatio = static_cast<float>(width) / height;
 
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 		GLFWwindow* const window = glfwCreateWindow(width, height, "Blocks", nullptr, nullptr);
@@ -83,8 +86,8 @@ int main(void)
 		IndexBuffer ib(indices, 6);
 
 		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
-		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(1000.0f, 0.0f, 0.0f));
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 500.0f, 0.0f));
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 		glm::mat4 mvp = projection * view * model;
 
 		Shader shader("Resources/Shaders/Basic.vert", "Resources/Shaders/Basic.frag");
@@ -95,20 +98,52 @@ int main(void)
 		shader.SetUniform1i(2, 0);
 		shader.SetUniformMat4f(3, mvp);
 
-		std::cout << glGetUniformLocation(1, "u_mvp") << std::endl;
-
 		Renderer renderer;
+
+		ImGui::CreateContext();
+		ImGuiIO& imGuiIO = ImGui::GetIO();
+		imGuiIO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
+		ImGui::StyleColorsDark();
+		ImGui_ImplOpenGL3_Init();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+
+		float y = 0.0f;
+		float x = 0.0f;
 
 		while (!glfwWindowShouldClose(window))
 		{
+			view = glm::translate(glm::mat4(1.0f), glm::vec3(x * (width - 100), y * (height - 100), 0.0f));
+			glm::mat4 mvp = projection * view * model;
+			shader.SetUniformMat4f(3, mvp);
+
 			renderer.Clear();
-			shader.SetUniform4f(1, 0.0f, 0.0f, 1.0f, 1.0f);
+
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+
+			//shader.SetUniform4f(1, 0.0f, 0.0f, 1.0f, 1.0f);
 			renderer.Draw(va, ib, shader);
+
+			{
+				ImGui::Begin("Hello, world!");
+				ImGui::SliderFloat("X", &x, 0.0f, 1.0f);
+				ImGui::SliderFloat("Y", &y, 0.0f, 1.0f);
+				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / imGuiIO.Framerate, imGuiIO.Framerate);
+				ImGui::End();
+			}
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			glfwSwapBuffers(window);
 
 			glfwPollEvents();
 		}
+
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 
 		glfwTerminate();
 	}
