@@ -21,7 +21,7 @@
 
 static void GLDebugMessageHandle(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* userParam)
 {
-	std::cout << message << std::endl;
+	std::cout << message << std::endl << std::endl;
 }
 
 int main(void)
@@ -61,7 +61,7 @@ int main(void)
 
 		std::cout << "Version:" << glGetString(GL_VERSION) << std::endl << std::endl;
 
-		float const positions[] =
+		float const vertecies[] =
 		{
 			 000.0f,  000.0f,   0.0f, 0.0f,
 			 100.0f,  000.0f,   1.0f, 0.0f,
@@ -76,7 +76,7 @@ int main(void)
 		};
 
 		VertexArray va;
-		VertexBuffer vb(positions, 4 * 4 * sizeof(float));
+		VertexBuffer vb(vertecies, 4 * 4 * sizeof(float));
 
 		VertexBufferLayout layout;
 		layout.Push<float>(2);
@@ -107,8 +107,8 @@ int main(void)
 		ImGui_ImplOpenGL3_Init();
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 
-		float y = 0.0f;
 		float x = 0.0f;
+		float y = 0.0f;
 
 		while (!glfwWindowShouldClose(window))
 		{
