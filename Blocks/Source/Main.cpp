@@ -61,7 +61,7 @@ int main(void)
 
 		std::cout << "Version:" << glGetString(GL_VERSION) << std::endl << std::endl;
 
-		float const vertecies[] =
+		float const vertices[] =
 		{
 			 000.0f,  000.0f,   0.0f, 0.0f,
 			 100.0f,  000.0f,   1.0f, 0.0f,
@@ -76,7 +76,7 @@ int main(void)
 		};
 
 		VertexArray va;
-		VertexBuffer vb(vertecies, 4 * 4 * sizeof(float));
+		VertexBuffer vb(vertices, 4 * 4 * sizeof(float));
 
 		VertexBufferLayout layout;
 		layout.Push<float>(2);
